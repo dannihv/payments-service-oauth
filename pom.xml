@@ -12,11 +12,11 @@
         <relativePath/>
     </parent>
     
-    <groupId>pe.poc</groupId>
+    <groupId>com.bank</groupId>
     <artifactId>payments-service</artifactId>
     <version>1.0.0</version>
-    <name>BCP Payments Service</name>
-    <description>Microservicio de Pagos con OAuth 2.0</description>
+    <name>Payments Service</name>
+    <description>Payments Microservice with OAuth 2.0 Authentication</description>
     
     <properties>
         <java.version>21</java.version>

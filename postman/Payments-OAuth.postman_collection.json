@@ -1,0 +1,157 @@
+{
+  "info": {
+    "name": "Payments Service - OAuth 2.0",
+    "description": "Collection for testing payments service with OAuth 2.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessToken",
+        "value": "{{access_token}}",
+        "type": "string"
+      },
+      {
+        "key": "tokenType",
+        "value": "Bearer",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "OAuth Token",
+      "item": [
+        {
+          "name": "Get Access Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "pm.environment.set('access_token', response.access_token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "client_id",
+                  "value": "{{client_id}}"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "{{client_secret}}"
+                },
+                {
+                  "key": "scope",
+                  "value": "api://payments-service/.default"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{token_endpoint}}",
+              "host": ["{{token_endpoint}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments API",
+      "item": [
+        {
+          "name": "Get Balance",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/payments/balance",
+              "host": ["{{base_url}}"],
+              "path": ["api", "payments", "balance"]
+            }
+          }
+        },
+        {
+          "name": "Transfer Money",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromAccount\": \"4532-1234-5678-9012\",\n  \"toAccount\": \"4532-9876-5432-1098\",\n  \"amount\": 100.00,\n  \"currency\": \"USD\",\n  \"description\": \"Test transfer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/payments/transfer",
+              "host": ["{{base_url}}"],
+              "path": ["api", "payments", "transfer"]
+            }
+          }
+        },
+        {
+          "name": "Get Token Info",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/payments/info",
+              "host": ["{{base_url}}"],
+              "path": ["api", "payments", "info"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

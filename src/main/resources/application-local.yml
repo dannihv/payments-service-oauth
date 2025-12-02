@@ -1,5 +1,5 @@
-# Profile para desarrollo local
-# Usar: mvn spring-boot:run -Dspring-boot.run.profiles=local
+# Profile for local development
+# Usage: mvn spring-boot:run -Dspring-boot.run.profiles=local
 
 server:
   port: 8080
@@ -9,11 +9,11 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          # Para testing local, puedes usar un mock server
+          # For local testing, you can use a mock server
           issuer-uri: http://localhost:9000/mock-issuer
           jwk-set-uri: http://localhost:9000/mock-issuer/.well-known/jwks.json
 
 logging:
   level:
-    pe.bcp.payments: DEBUG
+    com.bank.payments: DEBUG
     org.springframework.security: TRACE

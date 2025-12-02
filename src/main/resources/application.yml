@@ -3,26 +3,28 @@ server:
 
 spring:
   application:
-    name: bcp-payments-service
+    name: payments-service
   
   security:
     oauth2:
       resourceserver:
         jwt:
-          # URL del issuer (Azure Entra ID)
-          issuer-uri: ${AZURE_ISSUER_URI:https://login.microsoftonline.com/${AZURE_TENANT_ID}/v2.0}
-          # URL del JWKS para validar signature
-          jwk-set-uri: ${AZURE_JWKS_URI:https://login.microsoftonline.com/${AZURE_TENANT_ID}/discovery/v2.0/keys}
-          # Audiences esperados
-          audiences: ${AZURE_CLIENT_ID:api://bcp-payments}
+          # Issuer URI from OAuth provider (Azure Entra ID / Okta / Auth0)
+          issuer-uri: ${OAUTH_ISSUER_URI:https://login.microsoftonline.com/${TENANT_ID}/v2.0}
+          # JWKS URI for signature validation
+          jwk-set-uri: ${OAUTH_JWKS_URI:https://login.microsoftonline.com/${TENANT_ID}/discovery/v2.0/keys}
+          # Expected audiences
+          audiences: ${OAUTH_CLIENT_ID:api://payments-service}
 
-# Variables de ambiente esperadas:
-# AZURE_TENANT_ID: ID del tenant de Azure
-# AZURE_CLIENT_ID: Client ID de la app registration
+# Environment variables expected:
+# TENANT_ID: OAuth provider tenant ID
+# OAUTH_CLIENT_ID: Application client ID
+# OAUTH_ISSUER_URI: OAuth issuer URL
+# OAUTH_JWKS_URI: JWKS endpoint URL
 
 logging:
   level:
-    pe.bcp.payments: DEBUG
+    com.bank.payments: DEBUG
     org.springframework.security: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
