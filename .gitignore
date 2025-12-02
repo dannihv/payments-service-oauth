@@ -1,0 +1,34 @@
+# Compiled files
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+*.local
+
+# Secrets
+*credentials*
+*secret*
+*token*
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
