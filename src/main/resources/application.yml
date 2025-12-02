@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: bcp-payments-service
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # URL del issuer (Azure Entra ID)
+          issuer-uri: ${AZURE_ISSUER_URI:https://login.microsoftonline.com/${AZURE_TENANT_ID}/v2.0}
+          # URL del JWKS para validar signature
+          jwk-set-uri: ${AZURE_JWKS_URI:https://login.microsoftonline.com/${AZURE_TENANT_ID}/discovery/v2.0/keys}
+          # Audiences esperados
+          audiences: ${AZURE_CLIENT_ID:api://bcp-payments}
+
+# Variables de ambiente esperadas:
+# AZURE_TENANT_ID: ID del tenant de Azure
+# AZURE_CLIENT_ID: Client ID de la app registration
+
+logging:
+  level:
+    pe.bcp.payments: DEBUG
+    org.springframework.security: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
