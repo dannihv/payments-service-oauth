@@ -1,0 +1,33 @@
+#!/bin/bash
+# Pre-commit hook for OAuth validations
+
+echo "🔍 Running pre-commit validations..."
+echo ""
+
+# Validate OAuth config
+if ! ./scripts/validation/check-oauth-config.sh; then
+    echo ""
+    echo "❌ OAuth configuration validation failed!"
+    echo "Fix errors before committing"
+    exit 1
+fi
+
+# Validate JWT implementation
+if ! ./scripts/validation/check-jwt-validation.sh; then
+    echo ""
+    echo "❌ JWT validation check failed!"
+    echo "Fix errors before committing"
+    exit 1
+fi
+
+# Scan secrets
+if ! ./scripts/validation/check-secrets.sh; then
+    echo ""
+    echo "❌ Secrets detected in code!"
+    echo "Remove secrets before committing"
+    exit 1
+fi
+
+echo ""
+echo "✅ All pre-commit validations passed!"
+echo "Proceeding with commit..."
